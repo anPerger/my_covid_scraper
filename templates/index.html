@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>COVID Data</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="jumbotron text-center">
+            <h1>welcome to 2020:</h1>
+            <p>people are dying. the world is on fire.</p>
+            <p><a class="btn btn-primary btn-lg" href="/scrape" role="button">Get Data!</a></p>
+        </div>
+        {% if sickly %}
+
+        <table class='table table-dark'>
+            <thead class="thead-light"></thead>
+            <tr>
+                <th>State_Name</th>
+                <th>Total_Cases</th>
+                <th>New_Cases</th>
+            </tr>
+            {% for item in sickly %}
+            <tr>
+                <th> {{ item.name }} </th>
+                <td> {{ item.total_cases }} </td>
+                <td> {{ item.new_cases }} </td>
+            </tr>
+            {% endfor %}
+        </table>
+
+        {% endif %}
+    </div>
+    </div>
+</body>
+
+</html>
