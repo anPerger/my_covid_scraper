@@ -11,8 +11,8 @@ def init_browser():
 
 def scrape_info():
     browser = init_browser()
-
-    # Visit visitcostarica.herokuapp.com
+    
+    # Visit covidtracking.com
     url = 'https://covidtracking.com/data'
     browser.visit(url)
 
@@ -24,7 +24,9 @@ def scrape_info():
     #print(soup.prettify())
 
     covid_data = []
-    my_xpath = '/html/body/div/div[1]/main/div[2]/div/div[8]/div[1]/div'
+    # my_xpath = '/html/body/div/div[1]/main/div[2]/div/div[8]/div[1]/div'
+    my_xpath = '/html/body/div/div[1]/main/div[2]/div/div[5]/div[1]/div'
+    # my_xpath = '/html/body/div/div[1]/main/div[2]/div/div[5]/div[1]/div/div[2]'
     state_divs = browser.find_by_xpath(my_xpath)
 
     state_soup = bs(state_divs.html, 'html.parser')
@@ -32,15 +34,15 @@ def scrape_info():
     #print(state_soup)
 
     for state in range(len(state_soup)):
-        
-        state_total_cases_xpath = f'/html/body/div/div[1]/main/div[2]/div/div[8]/div[1]/div/div[{state + 1}]/div[2]/div[1]/div[2]/div/div/div[2]'
-        state_new_cases_xpath = f'/html/body/div/div[1]/main/div[2]/div/div[8]/div[1]/div/div[{state + 1}]/div[2]/div[1]/div[2]/div/div/div[3]/div[1]/span[2]'
-        
-        state_name_xpath = f'/html/body/div/div[1]/main/div[2]/div/div[8]/div[1]/div/div[{state + 1}]/div[1]/h3/a'
-        
+        state_total_cases_xpath = f'/html/body/div/div[1]/main/div[2]/div/div[5]/div[1]/div/div[{state + 1}]/div[2]/div/div[1]/div[2]/div[1]/div/div[2]'
+        state_new_cases_xpath = f'/html/body/div/div[1]/main/div[2]/div/div[5]/div[1]/div/div[{state + 1}]/div[2]/div/div[1]/div[2]/div[4]/span[2]' 
+        state_name_xpath = f'/html/body/div/div[1]/main/div[2]/div/div[5]/div[1]/div/div[{state + 1}]/div[1]/h3/a'
         state_name = browser.find_by_xpath(state_name_xpath).text
         state_total_cases = browser.find_by_xpath(state_total_cases_xpath).text
-        state_new_cases = browser.find_by_xpath(state_new_cases_xpath).text
+        try:
+            state_new_cases = browser.find_by_xpath(state_new_cases_xpath).text
+        except:
+            state_new_cases = "0"
         
         state_data = {
             'name' : state_name,
